@@ -1,12 +1,14 @@
 import pickle
 import os
 from appointment_gui import yes_no
+import datetime as dt
 
 def save_appointment(appointment_dict):
     dir_path = os.getcwd()
-    firstname,lastname,date,time = appointment_dict["fn"],appointment_dict['ln'],appointment_dict['file date'],appointment_dict['time']
-    time = time.replace(":","").replace(" ","")
-    filename = f"{date}_{time}_{firstname} {lastname}.pickle"
+    firstname,lastname= appointment_dict["fn"],appointment_dict['ln']
+    date = dt.datetime.today().strftime("%m.%d")
+    
+    filename = f"{date}_{lastname}.{firstname}.pickle"
     filepath = f"{dir_path}\\Appointments\\{filename}"
     with open(filepath, "wb") as handle:
         pickle.dump(appointment_dict, handle, protocol = pickle.HIGHEST_PROTOCOL)
