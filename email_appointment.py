@@ -16,6 +16,8 @@ def greetings(name:str) -> str:
         return f"Hello, {name}!"
 
 def email_appt_request(appt_dict:dict):
+    if appt_dict["comments"]:
+        appt_dict["comments"] = '\n'+appt_dict["comments"] +'\n'
     name = f'{appt_dict["fn"]} {appt_dict["ln"]}'
     appointments = ""
     for appointment in appt_dict['appointments']:
@@ -30,9 +32,9 @@ def email_appt_request(appt_dict:dict):
     text = f"""{greetings("Loye")}
 We have an appointment request from {name} (ID#:{appt_dict['sid']}) for {appt_dict["course"].upper()} tutoring. Would you be able to meet with the student at{at_listed_time}\n
 {appointments}
-If so,{which_time} I will send out a confirmation email. If not, I will ask the student for a different time.\n
-{appt_dict["comments"]}
-Thank you very much!
+If so,{which_time} I will send out a confirmation email. If not, I will ask the student for a different time.
+{appt_dict["comments"]}Thank you very much!
+
 Casey"""
     outlook = win32.Dispatch('outlook.application')
     mail = outlook.CreateItem(0)
@@ -87,4 +89,6 @@ Casey"""
         delete_appointment(path)
     else:
         pg.Popup('Email not Sent')
-
+    
+if __name__ == "__main__":  
+    print(greetings())
